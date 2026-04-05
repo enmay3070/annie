@@ -12,7 +12,6 @@
         .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
         .nav-active { background: #3b82f6 !important; color: white !important; transform: scale(1.05); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .tab-active { color: #3b82f6 !important; }
         .item-checked { opacity: 0.45; }
         .item-checked h3 { text-decoration: line-through; }
     </style>
@@ -29,19 +28,22 @@
                 <p class="text-xs text-slate-500 font-medium">2026.04.08 - 04.12</p>
             </div>
             <div class="glass-card px-3 py-2 text-blue-600 font-bold text-sm">
-                $ 1 JPY ≈ 0.052 HKD
+                ₩1 ≈ NT$0.023
             </div>
         </div>
 
+        <!-- Day 導覽 -->
         <div class="flex space-x-3 overflow-x-auto pb-4 no-scrollbar">
             <div v-for="day in days" :key="day.id"
                  @click="currentDay = day.id"
-                 :class="['flex-shrink-0 w-16 h-20 glass-card flex flex-col items-center justify-center cursor-pointer transition-all', currentDay === day.id ? 'nav-active' : 'text-slate-400']">
-                <span class="text-[10px] uppercase font-bold">Day</span>
-                <span class="text-lg font-black">{{ day.id }}</span>
+                 :class="['flex-shrink-0 w-20 h-20 glass-card flex flex-col items-center justify-center cursor-pointer transition-all px-1', currentDay === day.id ? 'nav-active' : 'text-slate-400']">
+                <span class="text-[9px] font-bold">{{ day.date }}</span>
+                <span class="text-lg font-black leading-tight">Day {{ day.id }}</span>
+                <span class="text-[9px] font-medium text-center leading-tight mt-0.5">{{ day.theme }}</span>
             </div>
         </div>
 
+        <!-- 當日備註 -->
         <div class="glass-card p-4 mb-6 border-l-4 border-yellow-400">
             <div class="flex items-center mb-2">
                 <i class="fas fa-exclamation-triangle text-yellow-500 mr-2"></i>
@@ -52,18 +54,19 @@
             </ul>
         </div>
 
+        <!-- 行程卡片 -->
         <div class="space-y-4">
             <div v-for="item in currentItinerary" :key="item.time" class="glass-card p-4 flex items-center transition-all active:scale-95">
-                <div class="w-16 border-r border-slate-200 mr-4">
-                    <span class="text-sm font-black text-slate-700">{{ item.time }}</span>
+                <div class="w-20 border-r border-slate-200 mr-4 flex-shrink-0">
+                    <span class="text-[11px] font-black text-slate-700 leading-tight">{{ item.time }}</span>
                 </div>
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     <h3 class="font-bold text-slate-800 text-sm">{{ item.title }}</h3>
-                    <p class="text-[11px] text-slate-500 mt-0.5">{{ item.desc }}</p>
+                    <p v-if="item.desc" class="text-[11px] text-slate-500 mt-0.5">{{ item.desc }}</p>
                 </div>
                 <a :href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(item.title + ' Jeju')"
                    target="_blank"
-                   class="ml-2 w-10 h-10 bg-blue-50 flex items-center justify-center rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition-colors">
+                   class="ml-2 w-10 h-10 bg-blue-50 flex items-center justify-center rounded-full text-blue-500 hover:bg-blue-500 hover:text-white transition-colors flex-shrink-0">
                     <i class="fas fa-directions text-lg"></i>
                 </a>
             </div>
@@ -129,19 +132,16 @@
             </div>
             <div v-for="item in filteredList" :key="item.id"
                  :class="['glass-card p-4 flex items-center transition-all', item.checked ? 'item-checked' : '']">
-                <!-- 勾選框 -->
                 <button @click="toggleItem(item.id)"
                         :class="['w-7 h-7 rounded-full border-2 flex items-center justify-center mr-4 flex-shrink-0 transition-all',
                                  item.checked ? 'bg-green-500 border-green-500' : 'border-slate-300']">
                     <i v-if="item.checked" class="fas fa-check text-white text-xs"></i>
                 </button>
-                <!-- 圖示 & 名稱 -->
                 <span class="text-lg mr-2">{{ getCategoryIcon(item.category) }}</span>
                 <div class="flex-1">
                     <h3 class="font-bold text-slate-800 text-sm">{{ item.name }}</h3>
                     <p class="text-[11px] text-slate-400">{{ getCategoryLabel(item.category) }}</p>
                 </div>
-                <!-- 刪除 -->
                 <button @click="removeItem(item.id)"
                         class="w-8 h-8 text-slate-300 hover:text-red-400 flex items-center justify-center transition-colors">
                     <i class="fas fa-trash-alt text-sm"></i>
@@ -151,19 +151,11 @@
     </div>
 
     <!-- ===== 底部導覽列 ===== -->
-    <div class="fixed bottom-6 left-4 right-4 h-16 glass-card flex justify-around items-center px-6">
+    <div class="fixed bottom-6 left-4 right-4 h-16 glass-card flex justify-around items-center px-10">
         <button @click="currentTab = 'itinerary'"
                 :class="['flex flex-col items-center transition-colors', currentTab === 'itinerary' ? 'text-blue-500' : 'text-slate-300']">
             <i class="fas fa-calendar-alt text-xl"></i>
             <span class="text-[10px] mt-1 font-bold">行程</span>
-        </button>
-        <button class="flex flex-col items-center text-slate-300 cursor-not-allowed">
-            <i class="fas fa-map-marked-alt text-xl"></i>
-            <span class="text-[10px] mt-1">地圖</span>
-        </button>
-        <button class="flex flex-col items-center text-slate-300 cursor-not-allowed">
-            <i class="fas fa-wallet text-xl"></i>
-            <span class="text-[10px] mt-1">記帳</span>
         </button>
         <button @click="currentTab = 'shopping'"
                 :class="['flex flex-col items-center transition-colors', currentTab === 'shopping' ? 'text-blue-500' : 'text-slate-300']">
@@ -197,7 +189,13 @@
             return {
                 currentTab: 'itinerary',
                 currentDay: 1,
-                days: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+                days: [
+                    { id: 1, date: '4/8（三）', theme: '抵達日' },
+                    { id: 2, date: '4/9（四）', theme: '牛島全日' },
+                    { id: 3, date: '4/10（五）', theme: '南海岸' },
+                    { id: 4, date: '4/11（六）', theme: '西北精華' },
+                    { id: 5, date: '4/12（日）', theme: '出發日' },
+                ],
                 shoppingList: saved ? JSON.parse(saved) : defaultList,
                 nextId: saved ? Math.max(...JSON.parse(saved).map(i => i.id)) + 1 : defaultList.length + 1,
                 filterCat: 'all',
@@ -209,34 +207,50 @@
                     { key: 'other',    icon: '🛍️', label: '其他' },
                 ],
                 notes: {
-                    1: ['記得在機場領取租車並檢查外觀', '東門市場夜市人多，注意財物', '確認 KakaoMap 是否已下載'],
-                    2: ['牛島渡輪需查看天氣是否停開', '環島建議租借電動腳踏車', '注意防曬，海邊風大'],
-                    3: ['南海岸風較大，多帶一件外套', '部分瀑布景區樓梯較多，穿好走的鞋'],
-                    4: ['咖啡廳下午人潮多，建議提早或延後', '黑豬肉一條街建議先電話訂位'],
-                    5: ['最後衝刺手信！', '需提前 2 小時抵達機場還車']
+                    1: ['在機場領取租車，仔細檢查車身外觀並拍照', '이호테우해변 停車場假日可能客滿，建議早到', '確認 KakaoMap、Naver Map 已下載'],
+                    2: ['牛島渡輪視天氣可能停開，出發前確認', '牛島內推薦租借電動腳踏車環島', '해녀의부엌 建議提前網路預約'],
+                    3: ['南海岸風較大，多帶一件外套', '天地淵、正房瀑布樓梯較多，穿好走的鞋', '산방산 & 용머리해안 需購票，日落前入場'],
+                    4: ['挾才海邊停車方便，早上人較少', '애월 咖啡街假日人潮多，建議平日前往', '칠성로 晚上約 22:00 關店，勿太晚前往'],
+                    5: ['동문시장 早市約 07:00 開始', '機場需提前 2 小時抵達還車辦登機', '確認所有伴手禮已打包好']
                 },
                 itineraryData: {
                     1: [
-                        { time: '09:35', title: '濟州國際機場', desc: '抵達 & 領取租車' },
-                        { time: '12:30', title: '午餐：黑豬肉燒烤', desc: '濟州必吃美食' },
-                        { time: '19:30', title: '東門傳統市場', desc: '逛夜市吃小吃' }
+                        { time: '09:35-10:30', title: '제주국제공항 도착 & 렌터카 수령', desc: '濟州國際機場抵達 & 領取租車' },
+                        { time: '11:00-12:00', title: '이호테우해변', desc: '이호테우 海水浴場' },
+                        { time: '12:30-14:00', title: '점심: 제주 흑돼지 구이', desc: '午餐：濟州黑豬肉燒烤' },
+                        { time: '15:00-16:30', title: '（待確認）', desc: '' },
+                        { time: '17:00-18:30', title: '협재해변', desc: '挾才海水浴場' },
+                        { time: '19:30-21:30', title: '（待確認）', desc: '' },
                     ],
                     2: [
-                        { time: '09:00', title: '牛島 (Udo)', desc: '搭乘渡輪前往牛島全日遊' },
-                        { time: '16:00', title: '城山日出峰', desc: '世界自然遺產爬山看美景' }
+                        { time: '07:00-08:30', title: '성산항으로 이동 + 조식', desc: '移動至城山港 + 早餐' },
+                        { time: '09:00-13:30', title: '우도 당일치기', desc: '牛島一日遊' },
+                        { time: '14:00-15:30', title: '해녀의부엌 - 성산', desc: '海女廚房（城山）' },
+                        { time: '16:00-17:30', title: '성산일출봉', desc: '城山日出峰（世界自然遺產）' },
+                        { time: '18:00-19:00', title: '섭지코지 해안 산책', desc: '涉地可支海岸散步' },
                     ],
                     3: [
-                        { time: '09:30', title: '天地淵瀑布', desc: '欣賞壯麗瀑布景觀' },
-                        { time: '12:30', title: '西歸浦景點', desc: '李仲燮步行街' }
+                        { time: '09:30-10:30', title: '천지연폭포', desc: '天地淵瀑布' },
+                        { time: '11:00-12:00', title: '정방폭포', desc: '正房瀑布' },
+                        { time: '12:30-14:00', title: '점심: 이중섭 거리 & 서귀포 고등어 구이', desc: '午餐：李仲燮街 & 西歸浦鯖魚燒烤' },
+                        { time: '14:30-15:30', title: '외돌개', desc: '外突岩' },
+                        { time: '16:30-18:30', title: '산방산 & 용머리해안', desc: '山房山 & 龍頭海岸' },
+                        { time: '19:30-21:00', title: '저녁: 안덕면 지역 맛집', desc: '晚餐：安德面地方餐廳' },
                     ],
                     4: [
-                        { time: '09:30', title: '翰林公園', desc: '四季植物園與洞窟' },
-                        { time: '14:30', title: '涯月咖啡街', desc: 'Coffee Crawl 悠閒下午' }
+                        { time: '09:30-11:00', title: '（待確認）', desc: '' },
+                        { time: '11:00-12:00', title: '협재해변 재방문', desc: '挾才海邊再訪' },
+                        { time: '12:30-14:00', title: '점심: 한림 해산물 식당', desc: '午餐：翰林海鮮餐廳' },
+                        { time: '14:30-16:30', title: '애월 카페거리 Coffee Crawl', desc: '涯月咖啡街' },
+                        { time: '17:00-18:30', title: '하귀~애월 해안도로 드라이브', desc: '下貴～涯月海岸公路兜風' },
+                        { time: '18:30-20:00', title: '제주시 칠성로 + 중앙지하상가', desc: '七星路 + 中央地下商場紀念品購物' },
+                        { time: '20:30-22:00', title: '석별 만찬: 흑돼지 BBQ', desc: '餞別晚宴：연동 흑돼지 거리' },
                     ],
                     5: [
-                        { time: '08:30', title: '東門市場最後購物', desc: '買手信與紀念品' },
-                        { time: '10:20', title: '濟州國際機場', desc: '還車並辦理登機' }
-                    ]
+                        { time: '07:30-08:30', title: '조식 + 짐 정리', desc: '早餐 + 整理行李' },
+                        { time: '08:30-09:30', title: '동문시장 마지막 쇼핑', desc: '東門市場最後購物' },
+                        { time: '09:30-10:20', title: '렌터카 반납 + 제주국제공항 체크인', desc: '還車 + 辦理登機' },
+                    ],
                 }
             }
         },
