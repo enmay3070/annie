@@ -150,12 +150,70 @@
         </div>
     </div>
 
+    <!-- ===== 行李清單 Tab ===== -->
+    <div v-if="currentTab === 'packing'">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-black text-slate-800">行李清單</h1>
+                <p class="text-xs text-slate-500 font-medium">{{ packedCount }} / {{ packingList.length }} 項已打包</p>
+            </div>
+            <div class="glass-card px-3 py-2 text-blue-600 font-bold text-sm cursor-pointer" @click="resetPacking">
+                全部重置
+            </div>
+        </div>
+
+        <!-- 進度條 -->
+        <div class="glass-card p-4 mb-4">
+            <div class="flex justify-between text-xs text-slate-500 mb-2">
+                <span>打包進度</span>
+                <span>{{ packingPercent }}%</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2.5">
+                <div class="bg-green-500 h-2.5 rounded-full transition-all duration-500"
+                     :style="{ width: packingPercent + '%' }"></div>
+            </div>
+        </div>
+
+        <!-- 分類過濾 -->
+        <div class="flex space-x-2 overflow-x-auto pb-3 no-scrollbar mb-4">
+            <button v-for="cat in [{ key: 'all', icon: '🎒', label: '全部' }, ...packingCategories]"
+                    :key="cat.key"
+                    @click="packingFilter = cat.key"
+                    :class="['flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all',
+                             packingFilter === cat.key ? 'bg-green-500 text-white' : 'glass-card text-slate-500']">
+                {{ cat.icon }} {{ cat.label }}
+            </button>
+        </div>
+
+        <!-- 清單 -->
+        <div class="space-y-3">
+            <div v-for="item in filteredPackingList" :key="item.id"
+                 :class="['glass-card p-4 flex items-center transition-all', item.packed ? 'item-checked' : '']">
+                <button @click="togglePacking(item.id)"
+                        :class="['w-7 h-7 rounded-full border-2 flex items-center justify-center mr-4 flex-shrink-0 transition-all',
+                                 item.packed ? 'bg-green-500 border-green-500' : 'border-slate-300']">
+                    <i v-if="item.packed" class="fas fa-check text-white text-xs"></i>
+                </button>
+                <span class="text-lg mr-2">{{ getPackingCatIcon(item.category) }}</span>
+                <div class="flex-1">
+                    <h3 class="font-bold text-slate-800 text-sm">{{ item.name }}</h3>
+                    <p v-if="item.note" class="text-[11px] text-slate-400 mt-0.5">{{ item.note }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== 底部導覽列 ===== -->
-    <div class="fixed bottom-6 left-4 right-4 h-16 glass-card flex justify-around items-center px-10">
+    <div class="fixed bottom-6 left-4 right-4 h-16 glass-card flex justify-around items-center px-4">
         <button @click="currentTab = 'itinerary'"
                 :class="['flex flex-col items-center transition-colors', currentTab === 'itinerary' ? 'text-blue-500' : 'text-slate-300']">
             <i class="fas fa-calendar-alt text-xl"></i>
             <span class="text-[10px] mt-1 font-bold">行程</span>
+        </button>
+        <button @click="currentTab = 'packing'"
+                :class="['flex flex-col items-center transition-colors', currentTab === 'packing' ? 'text-blue-500' : 'text-slate-300']">
+            <i class="fas fa-suitcase text-xl"></i>
+            <span class="text-[10px] mt-1 font-bold">行李</span>
         </button>
         <button @click="currentTab = 'shopping'"
                 :class="['flex flex-col items-center transition-colors', currentTab === 'shopping' ? 'text-blue-500' : 'text-slate-300']">
@@ -169,6 +227,37 @@
     const { createApp } = Vue
 
     const STORAGE_KEY = 'jeju-shopping-list'
+    const PACKING_KEY = 'jeju-packing-list'
+
+    const defaultPackingList = [
+        // 證件
+        { id: 'p1',  name: '護照正本', note: '效期需在回國日起6個月以上，建議拍照備份', category: 'passport', packed: false },
+        { id: 'p2',  name: '國際駕照 & 台灣駕照正本', note: '自駕必備，缺一不可', category: 'passport', packed: false },
+        { id: 'p3',  name: '韓元現金 (KRW)', note: '市場小吃、儲值交通卡', category: 'passport', packed: false },
+        { id: 'p4',  name: '信用卡', note: '韓國95%以上商店可刷卡', category: 'passport', packed: false },
+        { id: 'p5',  name: '網卡/eSIM 憑證', note: '入境前確認已啟用', category: 'passport', packed: false },
+        { id: 'p6',  name: '租車確認信 & 住宿地址', note: '印出或截圖存手機', category: 'passport', packed: false },
+        // 衣物
+        { id: 'c1',  name: '防風外套 / 薄羽絨', note: '海邊風大，泡溫泉後也需要', category: 'clothing', packed: false },
+        { id: 'c2',  name: '長短袖上衣（洋蔥穿法）', note: '可多帶1-2套備用', category: 'clothing', packed: false },
+        { id: 'c3',  name: '好走的運動鞋', note: '瀑布、地質步道需大量步行，勿穿新鞋', category: 'clothing', packed: false },
+        { id: 'c4',  name: '泳衣與泳帽', note: '泡山房山碳酸溫泉、牛島快艇穿救生衣前需穿', category: 'clothing', packed: false },
+        { id: 'c5',  name: '個人貼身衣物', note: '', category: 'clothing', packed: false },
+        // 電子
+        { id: 'e1',  name: '220V 轉接頭（雙圓孔）', note: '韓國豬鼻插座，建議帶2個', category: 'electronic', packed: false },
+        { id: 'e2',  name: '行動電源 & 充電線', note: '導航耗電快，海外吹風更快掉電', category: 'electronic', packed: false },
+        { id: 'e3',  name: '相機 & 記憶卡', note: '', category: 'electronic', packed: false },
+        // 盥洗
+        { id: 't1',  name: '牙刷與牙膏', note: '韓國飯店已不提供一次性備品', category: 'toiletry', packed: false },
+        { id: 't2',  name: '高係數防曬乳', note: '海邊紫外線強，風大更容易曬傷', category: 'toiletry', packed: false },
+        { id: 't3',  name: '保濕保養品 / 護唇膏', note: '韓國氣候偏乾，泡湯後補水更重要', category: 'toiletry', packed: false },
+        { id: 't4',  name: '暈車 / 暈船藥', note: '搭渡輪或快艇前30分鐘服用', category: 'toiletry', packed: false },
+        { id: 't5',  name: '個人常備藥品', note: '腸胃藥、止痛藥、感冒藥、OK繃', category: 'toiletry', packed: false },
+        // 雜物
+        { id: 'm1',  name: '摺疊環保袋', note: '韓國超市不提供塑膠袋', category: 'misc', packed: false },
+        { id: 'm2',  name: '晴雨兩用傘', note: '海島氣候多變', category: 'misc', packed: false },
+        { id: 'm3',  name: '小包面紙 / 濕紙巾', note: '吃烤肉、逛夜市必備', category: 'misc', packed: false },
+    ]
 
     const defaultList = [
         { id: 1, name: '濟州漢拏峰橘子巧克力', category: 'food', checked: false },
@@ -206,11 +295,20 @@
                     { key: 'souvenir', icon: '🎁', label: '紀念品' },
                     { key: 'other',    icon: '🛍️', label: '其他' },
                 ],
+                packingList: JSON.parse(localStorage.getItem(PACKING_KEY) || 'null') || defaultPackingList,
+                packingFilter: 'all',
+                packingCategories: [
+                    { key: 'passport',   icon: '📋', label: '證件' },
+                    { key: 'clothing',   icon: '👕', label: '衣物' },
+                    { key: 'electronic', icon: '🔌', label: '電子' },
+                    { key: 'toiletry',   icon: '🧴', label: '盥洗' },
+                    { key: 'misc',       icon: '🎒', label: '雜物' },
+                ],
                 notes: {
                     1: ['在機場領取租車，仔細檢查車身外觀並拍照', '이호테우해변 停車場假日可能客滿，建議早到', '確認 KakaoMap、Naver Map 已下載'],
-                    2: ['牛島渡輪視天氣可能停開，出發前確認', '牛島內推薦租借電動腳踏車環島', '해녀의부엌 建議提前網路預約'],
-                    3: ['南海岸風較大，多帶一件外套', '天地淵、正房瀑布樓梯較多，穿好走的鞋', '산방산 & 용머리해안 需購票，日落前入場'],
-                    4: ['挾才海邊停車方便，早上人較少', '애월 咖啡街假日人潮多，建議平日前往', '칠성로 晚上約 22:00 關店，勿太晚前往'],
+                    2: ['牛島渡輪視天氣可能停開，出發前確認', '牛島快艇在東岸鯨窟附近，現場買票即可，約 15~20 分鐘', '快艇需穿救生衣，泡溫泉需穿泳衣，記得帶！', '해녀의부엌 建議提前網路預約'],
+                    3: ['南海岸風較大，多帶一件外套', '天地淵、正房瀑布樓梯較多，穿好走的鞋', '山房山碳酸溫泉有戶外露天池，需穿泳衣入水', '龍頭海岸遊覽後直接前往溫泉最順路，不需拉車'],
+                    4: ['翰林公園停車方便，早上人較少', '애월 咖啡街假日人潮多，建議平日前往', '칠성로 晚上約 22:00 關店，勿太晚前往'],
                     5: ['동문시장 早市約 07:00 開始', '機場需提前 2 小時抵達還車辦登機', '確認所有伴手禮已打包好']
                 },
                 itineraryData: {
@@ -224,7 +322,9 @@
                     ],
                     2: [
                         { time: '07:00-08:30', title: '성산항으로 이동 + 조식', desc: '移動至城山港 + 早餐' },
-                        { time: '09:00-13:30', title: '우도 당일치기', desc: '牛島一日遊' },
+                        { time: '09:00-10:00', title: '우도 도착 & 전동 자전거 대여', desc: '牛島抵達 & 租借電動腳踏車' },
+                        { time: '10:00-11:00', title: '우도 쾌속선 (동안경굴)', desc: '牛島觀光快艇・東岸鯨窟・現場買票' },
+                        { time: '11:00-13:30', title: '우도 자유 탐방', desc: '牛島自由探索（西濱白沙、우도봉 등）' },
                         { time: '14:00-15:30', title: '해녀의부엌 - 성산', desc: '海女廚房（城山）' },
                         { time: '16:00-17:30', title: '성산일출봉', desc: '城山日出峰（世界自然遺產）' },
                         { time: '18:00-19:00', title: '섭지코지 해안 산책', desc: '涉地可支海岸散步' },
@@ -234,7 +334,8 @@
                         { time: '11:00-12:00', title: '정방폭포', desc: '正房瀑布' },
                         { time: '12:30-14:00', title: '점심: 이중섭 거리 & 서귀포 고등어 구이', desc: '午餐：李仲燮街 & 西歸浦鯖魚燒烤' },
                         { time: '14:30-15:30', title: '외돌개', desc: '外孤岩' },
-                        { time: '16:30-18:30', title: '산방산 & 용머리해안', desc: '山房山 & 龍頭海岸' },
+                        { time: '16:30-17:30', title: '산방산 & 용머리해안', desc: '山房山 & 龍頭海岸' },
+                        { time: '17:30-19:30', title: '산방산 탄산온천', desc: '山房山碳酸溫泉・戶外露天池・需穿泳衣' },
                         { time: '19:30-21:00', title: '저녁: 안덕면 지역 맛집', desc: '晚餐：安德面地方餐廳' },
                     ],
                     4: [
@@ -264,12 +365,25 @@
             filteredList() {
                 if (this.filterCat === 'all') return this.shoppingList
                 return this.shoppingList.filter(i => i.category === this.filterCat)
+            },
+            packedCount() { return this.packingList.filter(i => i.packed).length },
+            packingPercent() {
+                if (this.packingList.length === 0) return 0
+                return Math.round((this.packedCount / this.packingList.length) * 100)
+            },
+            filteredPackingList() {
+                if (this.packingFilter === 'all') return this.packingList
+                return this.packingList.filter(i => i.category === this.packingFilter)
             }
         },
         watch: {
             shoppingList: {
                 deep: true,
                 handler(val) { localStorage.setItem(STORAGE_KEY, JSON.stringify(val)) }
+            },
+            packingList: {
+                deep: true,
+                handler(val) { localStorage.setItem(PACKING_KEY, JSON.stringify(val)) }
             }
         },
         methods: {
@@ -294,6 +408,16 @@
             },
             getCategoryLabel(key) {
                 return this.categories.find(c => c.key === key)?.label || '其他'
+            },
+            togglePacking(id) {
+                const item = this.packingList.find(i => i.id === id)
+                if (item) item.packed = !item.packed
+            },
+            resetPacking() {
+                this.packingList.forEach(i => i.packed = false)
+            },
+            getPackingCatIcon(key) {
+                return this.packingCategories.find(c => c.key === key)?.icon || '🎒'
             }
         }
     }).mount('#app')
