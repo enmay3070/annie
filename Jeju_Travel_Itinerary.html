@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>濟州島 5天4夜 深度自駕行程 2026</title>
+<style>
+  :root {
+    --jeju-blue: #1B4F72;
+    --jeju-sky: #2E86C1;
+    --jeju-light: #D6EAF8;
+    --jeju-teal: #0E9183;
+    --day1: #D6EAF8;
+    --day2: #D5F5E3;
+    --day3: #FDEBD0;
+    --day4: #F9EBEA;
+    --day5: #EBF5FB;
+    --text-dark: #1a1a2e;
+    --text-mid: #444;
+    --radius: 14px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.09);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    background: #f0f4f8;
+    color: var(--text-dark);
+    line-height: 1.7;
+  }
+
+  /* ── Hero Banner ──────────────────── */
+  .hero {
+    background: linear-gradient(135deg, #0D3349 0%, #1B6CA8 60%, #0E9183 100%);
+    color: #fff;
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+  .hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; letter-spacing: .03em; }
+  .hero .subtitle { font-size: 1rem; opacity: .88; margin-top: 8px; }
+  .hero .tags { margin-top: 18px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .hero .tag {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 4px 16px;
+    font-size: .85rem;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ── Container ────────────────────── */
+  .container { max-width: 1060px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* ── Section Title ────────────────── */
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--jeju-blue);
+    border-left: 5px solid var(--jeju-teal);
+    padding-left: 12px;
+    margin: 36px 0 16px;
+  }
+
+  /* ── Flight Cards ─────────────────── */
+  .flight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width: 640px) { .flight-grid { grid-template-columns: 1fr; } }
+
+  .flight-card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px 22px;
+    border-top: 5px solid var(--jeju-sky);
+    position: relative;
+  }
+  .flight-card.return { border-top-color: var(--jeju-teal); }
+  .flight-label {
+    font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+    color: var(--jeju-sky); text-transform: uppercase; margin-bottom: 6px;
+  }
+  .flight-card.return .flight-label { color: var(--jeju-teal); }
+  .flight-route { font-size: 1.5rem; font-weight: 800; letter-spacing: .04em; }
+  .flight-info { font-size: .88rem; color: #555; margin-top: 6px; }
+  .flight-info span { font-weight: 600; color: var(--text-dark); }
+  .flight-terminal {
+    display: inline-block;
+    background: #FFF3CD;
+    border: 1.5px solid #F0AD00;
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: #856404;
+    margin-top: 8px;
+  }
+
+  /* ── Departure Alert ──────────────── */
+  .departure-alert {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 2px solid #F0AD00;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: var(--shadow);
+  }
+  .departure-alert .icon { font-size: 2rem; flex-shrink: 0; }
+  .departure-alert h3 { font-size: 1rem; font-weight: 700; color: #7D5A00; margin-bottom: 6px; }
+  .departure-alert ul { list-style: none; }
+  .departure-alert ul li { font-size: .9rem; color: #5a4000; padding: 3px 0; }
+  .departure-alert ul li::before { content: "▸ "; color: #F0AD00; font-weight: bold; }
+
+  .time-row {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px;
+  }
+  .time-chip {
+    background: #fff;
+    border: 2px solid #F0AD00;
+    border-radius: 10px;
+    padding: 8px 16px;
+    text-align: center;
+  }
+  .time-chip .label { font-size: .72rem; color: #888; }
+  .time-chip .value { font-size: 1.2rem; font-weight: 800; color: #7D5A00; }
+
+  /* ── Day Cards ────────────────────── */
+  .day-block {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .day-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 22px;
+    cursor: pointer;
+  }
+  .day-num {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.1rem;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .day-title { font-size: 1.1rem; font-weight: 700; }
+  .day-subtitle { font-size: .82rem; color: #666; margin-top: 2px; }
+  .day-badge {
+    margin-left: auto;
+    font-size: .78rem;
+    background: rgba(0,0,0,0.07);
+    border-radius: 999px;
+    padding: 3px 12px;
+    color: #444;
+    flex-shrink: 0;
+  }
+
+  /* day colors */
+  .d1 .day-header { background: #EBF4FD; }
+  .d1 .day-num   { background: linear-gradient(135deg, #2980B9, #1B4F72); }
+  .d2 .day-header { background: #EAFAF1; }
+  .d2 .day-num   { background: linear-gradient(135deg, #27AE60, #1E8449); }
+  .d3 .day-header { background: #FEF5E7; }
+  .d3 .day-num   { background: linear-gradient(135deg, #E67E22, #B9770E); }
+  .d4 .day-header { background: #FDEDEC; }
+  .d4 .day-num   { background: linear-gradient(135deg, #E74C3C, #A93226); }
+  .d5 .day-header { background: #EBF5FB; }
+  .d5 .day-num   { background: linear-gradient(135deg, #5DADE2, #1B4F72); }
+
+  /* ── Timeline ─────────────────────── */
+  .timeline { padding: 4px 22px 20px 22px; }
+  .tl-item { display: flex; gap: 14px; padding: 10px 0; }
+  .tl-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 64px; }
+  .tl-time { font-size: .78rem; font-weight: 700; color: var(--jeju-sky); text-align: center; white-space: nowrap; }
+  .tl-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--jeju-sky);
+    margin: 6px 0 0;
+    flex-shrink: 0;
+  }
+  .tl-line { width: 2px; background: #d8e8f3; flex: 1; min-height: 20px; }
+  .tl-item:last-child .tl-line { display: none; }
+  .tl-content { flex: 1; padding-bottom: 4px; }
+  .tl-name-kr { font-size: .78rem; color: #888; }
+  .tl-name-zh { font-size: .98rem; font-weight: 700; color: var(--text-dark); margin: 1px 0; }
+  .tl-desc { font-size: .85rem; color: #555; margin-top: 3px; }
+  .tl-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: .74rem; border-radius: 999px;
+    padding: 2px 10px; font-weight: 600;
+  }
+  .chip-transport { background: #EBF5FB; color: #1B6CA8; }
+  .chip-cost      { background: #E9F7EF; color: #1E8449; }
+  .chip-rain      { background: #FEF9E7; color: #9A7D0A; }
+  .chip-warn      { background: #FDEDEC; color: #A93226; }
+  .chip-star      { background: #F5EEF8; color: #6C3483; }
+  .tl-link { font-size: .76rem; color: var(--jeju-sky); text-decoration: none; margin-top: 4px; display: inline-block; }
+  .tl-link:hover { text-decoration: underline; }
+
+  /* ── Budget ───────────────────────── */
+  .budget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .budget-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--jeju-teal);
+  }
+  .budget-card .b-item { font-size: .88rem; color: #444; }
+  .budget-card .b-krw  { font-size: 1.15rem; font-weight: 800; color: var(--jeju-blue); margin-top: 4px; }
+  .budget-card .b-twd  { font-size: .78rem; color: #888; }
+  .budget-total {
+    background: linear-gradient(135deg, var(--jeju-blue), #0E9183);
+    color: #fff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 8px;
+    box-shadow: var(--shadow);
+  }
+  .budget-total .label { font-size: .9rem; opacity: .88; }
+  .budget-total .amount { font-size: 1.5rem; font-weight: 900; }
+
+  /* ── Tips ─────────────────────────── */
+  .tips-grid { display: grid; gap: 10px; }
+  .tip-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .tip-card .tip-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+  .tip-card .tip-text { font-size: .88rem; color: #444; line-height: 1.6; }
+  .tip-card .tip-text strong { color: var(--text-dark); }
+
+  /* ── Checklist ────────────────────── */
+  .checklist { list-style: none; display: grid; gap: 8px; }
+  .checklist li {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex; align-items: center; gap: 10px;
+    font-size: .9rem;
+  }
+  .checklist li::before {
+    content: "☐";
+    font-size: 1.2rem;
+    color: var(--jeju-teal);
+    flex-shrink: 0;
+  }
+
+  /* ── Footer ───────────────────────── */
+  footer {
+    text-align: center;
+    color: #aaa;
+    font-size: .8rem;
+    padding: 24px 0 12px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 24px;
+  }
+
+  /* ── Responsive ───────────────────── */
+  @media print {
+    .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .day-block { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <span class="hero-emoji">🍊</span>
+  <h1>濟州島 5天4夜 深度自駕行程</h1>
+  <p class="subtitle">2026年4月8日（三）→ 4月12日（日）｜4位成人｜全程自駕</p>
+  <div class="tags">
+    <span class="tag">🚗 自駕</span>
+    <span class="tag">🌊 海景咖啡廳</span>
+    <span class="tag">🐄 牛島</span>
+    <span class="tag">🎁 伴手禮</span>
+    <span class="tag">📍 濟州市北區住宿</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ═══════════ 航班資訊 ═══════════ -->
+  <div class="section-title">✈ 航班確認</div>
+  <div class="flight-grid">
+    <div class="flight-card">
+      <div class="flight-label">去程 Outbound</div>
+      <div class="flight-route">TPE → CJU</div>
+      <div class="flight-info">
+        <span>2026年4月8日（三）</span><br>
+        臺灣虎航 IT654｜經濟艙｜A320｜無餐點<br>
+        出發 <span>06:40</span> → 抵達 <span>09:35</span>
+      </div>
+      <div class="flight-terminal">🏢 桃園機場 第一航廈（T1）— 虎航 D區 值機</div>
+    </div>
+    <div class="flight-card return">
+      <div class="flight-label">回程 Return</div>
+      <div class="flight-route">CJU → TPE</div>
+      <div class="flight-info">
+        <span>2026年4月12日（日）</span><br>
+        臺灣虎航 IT655｜經濟艙｜A320｜無餐點<br>
+        出發 <span>10:40</span> → 抵達 <span>11:45</span>
+      </div>
+      <div class="flight-terminal" style="border-color:#0E9183;color:#0E6155;background:#E8F8F5;">🏢 濟州國際機場 出境</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 出門時間提醒 ═══════════ -->
+  <div class="section-title">⏰ 出門時間建議</div>
+
+  <div class="departure-alert">
+    <div class="icon">🛫</div>
+    <div>
+      <h3>4/8 去程｜06:40 起飛 · 桃園機場 T1</h3>
+      <ul>
+        <li>廉航（虎航）建議提前 <strong>2.5–3 小時</strong>到機場</li>
+        <li>04:40 值機截止（T1 D區），<strong>請於此前完成</strong></li>
+        <li>建議 <strong>04:00 前抵達</strong>，可從容辦理行李托運 + 安檢</li>
+        <li>4人行李多，排隊時間較長，請勿卡點</li>
+        <li>可提前 24 小時上虎航官網完成<strong>網路報到</strong>，省下現場時間</li>
+      </ul>
+      <div class="time-row">
+        <div class="time-chip">
+          <div class="label">建議到機場</div>
+          <div class="value">04:00</div>
+        </div>
+        <div class="time-chip">
+          <div class="label">值機截止</div>
+          <div class="value">04:40</div>
+        </div>
+        <div class="time-chip">
+          <div class="label">起飛</div>
+          <div class="value">06:40</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:#7D5A00;margin-top:10px;">📌 T1 停車場 → 航廈 → 虎航 D區 約 10–15 分鐘，請一併計入出門時間</p>
+    </div>
+  </div>
+
+  <div class="departure-alert" style="border-color:#0E9183;background:linear-gradient(135deg,#e8f8f5,#d5f5e3);">
+    <div class="icon">🛬</div>
+    <div>
+      <h3>4/12 回程｜10:40 起飛 · 濟州國際機場</h3>
+      <ul>
+        <li>建議 <strong>08:00–08:10 抵達</strong>濟州機場</li>
+        <li>濟州機場規模較小，安檢通常僅需 15–20 分鐘</li>
+        <li>但 4 人行李托運排隊需多預留時間</li>
+        <li>機場免稅區可購買最後紀念品</li>
+      </ul>
+      <div class="time-row">
+        <div class="time-chip" style="border-color:#0E9183;">
+          <div class="label">建議到機場</div>
+          <div class="value" style="color:#0E6155;">08:00</div>
+        </div>
+        <div class="time-chip" style="border-color:#0E9183;">
+          <div class="label">起飛</div>
+          <div class="value" style="color:#0E6155;">10:40</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:#0E6155;margin-top:10px;">📌 住宿 건입동 → 機場 約 15 分鐘車程（需歸還租車，提前 30 分鐘到達還車處）</p>
+    </div>
+  </div>
+
+  <!-- ═══════════ DAY 1 ═══════════ -->
+  <div class="section-title">📅 每日行程</div>
+
+  <div class="day-block d1">
+    <div class="day-header">
+      <div class="day-num">1</div>
+      <div>
+        <div class="day-title">4/8 (三)｜抵達日 — 濟州市 + 애월 海岸</div>
+        <div class="day-subtitle">機場取車 → 伊胡海灘 → 애월 海景咖啡廳 → 협재海灘 → 東門夜市</div>
+      </div>
+      <div class="day-badge">Zone：濟州市 ↔ 愛月</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">09:35</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">제주국제공항 도착 & 렌터카 수령</div>
+          <div class="tl-name-zh">✈ 濟州國際機場抵達 & 取租車</div>
+          <div class="tl-desc">IT654 09:35 落地。建議預訂 SK렌터카 或 KT렌터카 中型以上車款（4人行李）。</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 租車 ₩55,000–80,000/日</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">11:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">이호테우해변</div>
+          <div class="tl-name-zh">🐴 伊胡馬燈塔海灘</div>
+          <div class="tl-desc">濟州市在地人愛去的海灘！紅白馬型燈塔為標誌，白沙+松林步道，無觀光客擁擠感。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 숙소에서 12분</span>
+            <span class="chip chip-cost">💰 免費</span>
+            <span class="chip chip-rain">☔ 雨天改：제주민속자연사박물관</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">12:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">점심: 제주 흑돼지 구이</div>
+          <div class="tl-name-zh">🐷 午餐：濟州黑豬烤肉</div>
+          <div class="tl-desc">濟州必吃！삼겹살+목살 組合最推薦。推薦：돈사돈(豚師豚) 或 제주흑돼지주식회사（연동 黑豬거리）。</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 約 ₩80,000–100,000（4人）</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">15:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">더바당 카페 / 노을리 카페（애월）</div>
+          <div class="tl-name-zh">☕ 애월 海景咖啡廳精選</div>
+          <div class="tl-desc">더바당：前露台正對大海，Specialty 咖啡+手工蛋糕，黃昏時最美。備選：노을리（植物園概念3層樓，屋頂海景）。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 제주시에서 20분</span>
+            <span class="chip chip-cost">💰 約 ₩60,000–80,000（4人）</span>
+          </div>
+          <a href="https://naver.me/thebadang" class="tl-link" target="_blank">🔗 더바당 Naver Map</a>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">17:00</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">협재해변</div>
+          <div class="tl-name-zh">🌊 狹才海灘 + 비양도 조망</div>
+          <div class="tl-desc">濟州最美沙灘之一，碧綠海水+白沙。遠眺飛揚島（비양도）如畫。夕陽西下方向最佳。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 애월에서 10분</span>
+            <span class="chip chip-cost">💰 免費</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">19:30</div>
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">동문재래시장 야시장</div>
+          <div class="tl-name-zh">🏮 東門傳統市場夜市（晚餐 + 伴手禮第一波）</div>
+          <div class="tl-desc">紫菜飯糰、黑豬串、橘子甜品。伴手禮：오메기떡、감귤초콜릿、한라봉乾片。住宿步行可達！</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 숙소에서 5분</span>
+            <span class="chip chip-cost">💰 晚餐約 ₩50,000 + 購物</span>
+          </div>
+          <a href="http://www.jejudongmun.com/" class="tl-link" target="_blank">🔗 동문시장 官網</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ DAY 2 ═══════════ -->
+  <div class="day-block d2">
+    <div class="day-header">
+      <div class="day-num">2</div>
+      <div>
+        <div class="day-title">4/9 (四)｜牛島全日 — 성산 + 우도</div>
+        <div class="day-subtitle">早起出發 → 牛島渡輪 → 海女廚房 → 城山日出峰 → 涉地可支</div>
+      </div>
+      <div class="day-badge">Zone：東部（성산/우도）</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:00</div>
+          <div class="tl-dot" style="background:#27AE60;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">성산항으로 이동 + 조식</div>
+          <div class="tl-name-zh">🌅 早起！前往城山港</div>
+          <div class="tl-desc">숙소 → 성산항 自駕約 1 小時（1118번 도로 推薦）。推薦抵達後先在港口카페 봄날 或附近麵包店享用早餐。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 1시간 이동</span>
+            <span class="chip chip-cost">💰 早餐 약 ₩30,000</span>
+            <span class="chip chip-rain">☔ 雨天替代：만장굴（萬丈窟）용암동굴</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">09:00</div>
+          <div class="tl-dot" style="background:#27AE60;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">우도 (牛島) 당일치기</div>
+          <div class="tl-name-zh">🐄 牛島一日遊</div>
+          <div class="tl-desc">
+            🛳️ 渡輪：성산항 07:30–18:30，30分一班，<strong>現場購票無需預訂</strong>，왕복 ₩10,500/人<br>
+            ⚠️ <strong>外地租車禁止上島</strong>，停車於성산항，島上租電動摩托車 ₩15,000/人<br>
+            📍 서빈백사（홍조단괴해변，珊瑚沙灘★隱藏秘境）→ 우도봉 전망대 → 하우목동항 카페街<br>
+            🍦 必吃：우도 땅콩 아이스크림（花生冰淇淋）
+          </div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 渡輪 ₩42,000 + 摩托車 ₩60,000（4人）</span>
+            <span class="chip chip-star">⭐ 行程亮點</span>
+          </div>
+          <a href="http://udoship.com/" class="tl-link" target="_blank">🔗 우도 渡輪資訊</a>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">14:00</div>
+          <div class="tl-dot" style="background:#27AE60;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">해녀의부엌（海女廚房）— 성산</div>
+          <div class="tl-name-zh">🦪 海女廚房（在地秘境級餐廳）</div>
+          <div class="tl-desc">真實海女下海捕撈的海鮮料理體驗！성게비빔밥（海膽拌飯）、전복죽（鮑魚粥）。<strong>⚠️ 必須提前官網預約！</strong></div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 성산항에서 5분</span>
+            <span class="chip chip-cost">💰 約 ₩150,000–200,000（4人套餐）</span>
+            <span class="chip chip-warn">⚠️ 需提前預約</span>
+          </div>
+          <a href="https://en.haenyeokitchen.com/" class="tl-link" target="_blank">🔗 해녀의부엌 官網預約</a>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">16:00</div>
+          <div class="tl-dot" style="background:#27AE60;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">성산일출봉（城山日出峰）</div>
+          <div class="tl-name-zh">🌋 城山日出峰（UNESCO 世界自然遺產）</div>
+          <div class="tl-desc">濟州代表地標。登頂約 25–30 分鐘，火山口與大海盡收眼底。最晚 17:50 前入場。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 성산항에서 3분</span>
+            <span class="chip chip-cost">💰 ₩5,000/人 = ₩20,000（4人）</span>
+          </div>
+          <a href="https://www.visitjeju.net/kr/detail/view?contentsid=CONT_000000000500349" class="tl-link" target="_blank">🔗 Visit Jeju 官方資訊</a>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">18:00</div>
+          <div class="tl-dot" style="background:#27AE60;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">섭지코지 해안 산책</div>
+          <div class="tl-name-zh">🌅 涉地可支海岸散步</div>
+          <div class="tl-desc">玄武岩海岸絕景，성산일출봉 遠景最佳拍攝點。夕陽光線下拍照絕美，步行全程約 40–60 分鐘。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 성산일출봉에서 10분</span>
+            <span class="chip chip-cost">💰 免費</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ DAY 3 ═══════════ -->
+  <div class="day-block d3">
+    <div class="day-header">
+      <div class="day-num">3</div>
+      <div>
+        <div class="day-title">4/10 (五)｜南海岸西行 — 서귀포 → 산방산</div>
+        <div class="day-subtitle">天地淵瀑布 → 正房瀑布 → 外孤岩 → 龍頭海岸（沿南海岸西行）</div>
+      </div>
+      <div class="day-badge">Zone：南部</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">10:00</div>
+          <div class="tl-dot" style="background:#E67E22;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">천지연폭포</div>
+          <div class="tl-name-zh">💦 天地淵瀑布</div>
+          <div class="tl-desc">水量豐沛的濟州代表瀑布，兩側天然闊葉樹林步道，旁有天然紀念物 당팔수 群落。步道全程約 30 分鐘。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 숙소에서 45–55분</span>
+            <span class="chip chip-cost">💰 ₩2,000/人 = ₩8,000</span>
+            <span class="chip chip-rain">☔ 雨天：카멜리아힐（椿花丘）</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">11:00</div>
+          <div class="tl-dot" style="background:#E67E22;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">정방폭포</div>
+          <div class="tl-name-zh">🌊 正房瀑布 ★ 亞洲唯一直瀉入海瀑布</div>
+          <div class="tl-desc">亞洲唯一直接流入大海的瀑布，極為壯觀！瀑布底可見海浪拍打。建議穿防滑鞋。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 천지연에서 5분</span>
+            <span class="chip chip-cost">💰 ₩2,000/人 = ₩8,000</span>
+            <span class="chip chip-star">⭐ 下雨更壯觀</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">12:30</div>
+          <div class="tl-dot" style="background:#E67E22;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">점심: 이중섭 거리 고등어 구이</div>
+          <div class="tl-name-zh">🐟 午餐：李仲燮街道 烤鯖魚定食</div>
+          <div class="tl-desc">서귀포 시내 이중섭 거리（韓國名畫家紀念街）周邊海鮮定食店。生魚片+烤鯖魚+小菜 10 道，CP值超高。</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 約 ₩80,000–100,000（4人）</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">14:30</div>
+          <div class="tl-dot" style="background:#E67E22;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">외돌개</div>
+          <div class="tl-name-zh">🗿 外孤岩海岸絕景</div>
+          <div class="tl-desc">20M 高玄武岩孤峰矗立大海中，松林步道沿海岸線全程 40–50 分鐘，坡度輕鬆。韓劇《大長今》取景地。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 이중섭 거리에서 10분</span>
+            <span class="chip chip-cost">💰 免費</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">16:30</div>
+          <div class="tl-dot" style="background:#E67E22;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">산방산 & 용머리해안</div>
+          <div class="tl-name-zh">🏔️ 山房山 & 龍頭海岸 ★ 130萬年地質秘境</div>
+          <div class="tl-desc">行程最大亮點秘境！龍頭海岸是130萬年前火山噴發形成的水平沉積岩壁，地質景觀令人讚嘆，觀光客相對少。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 외돌개에서 30–35분（沿南海岸西行）</span>
+            <span class="chip chip-cost">💰 ₩2,000/人 = ₩8,000</span>
+            <span class="chip chip-star">⭐ 隱藏秘境</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">19:30</div>
+          <div class="tl-dot" style="background:#E67E22;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">저녁: 창고42（안덕면）</div>
+          <div class="tl-name-zh">🍽️ 晚餐：창고42（倉庫42）</div>
+          <div class="tl-desc">安德面隱藏系餐廳，주차 容易，濟州風味 Fusion，網路評價極佳。或沿路返回途中的한림 해산물 식당。</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 約 ₩80,000–100,000（4人）</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ DAY 4 ═══════════ -->
+  <div class="day-block d4">
+    <div class="day-header">
+      <div class="day-num">4</div>
+      <div>
+        <div class="day-title">4/11 (六)｜西北精華 + 購物收尾</div>
+        <div class="day-subtitle">翰林公園洞窟 → 협재海灘 → 애월咖啡巡禮 → 夕陽海岸公路 → 市區大採購</div>
+      </div>
+      <div class="day-badge">Zone：西北 → 濟州市</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">09:30</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">한림공원</div>
+          <div class="tl-name-zh">🕳️ 翰林公園（熔岩洞窟 + 亞熱帶植物園）</div>
+          <div class="tl-desc">含협재굴+쌍용굴兩座天然熔岩洞窟（天然紀念物）。園內仙人掌自生地、민속마을。全程約 1.5 小時。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 숙소에서 35–40분</span>
+            <span class="chip chip-cost">💰 ₩12,000/人 = ₩48,000（4人）</span>
+            <span class="chip chip-rain">☔ 洞窟全天候，雨天尤佳</span>
+          </div>
+          <a href="http://www.hallimpark.com/" class="tl-link" target="_blank">🔗 翰林公園官網</a>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">11:00</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">협재해변 재방문</div>
+          <div class="tl-name-zh">🌊 狹才海灘（晴天加成）</div>
+          <div class="tl-desc">翰林公園步行可達，晴天下碧藍海水最清透。비양도（飛揚島）如浮在海上的綠寶石。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚶 한림공원에서 도보 5분</span>
+            <span class="chip chip-cost">💰 免費</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">12:30</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">점심: 한림 옥돔 구이</div>
+          <div class="tl-name-zh">🐠 午餐：翰林 옥돔 玉頭魚烤魚定食</div>
+          <div class="tl-desc">濟州特有魚種 옥돔（玉頭魚），肉質鮮甜，為濟州頂級家常料理。避開觀光客店，選在地食堂。</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 約 ₩80,000（4人）</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">14:30</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">애월 카페거리 Coffee Crawl</div>
+          <div class="tl-name-zh">☕ 애월 咖啡街深度巡禮</div>
+          <div class="tl-desc">
+            路線（三店5分鐘車程內完成）：<br>
+            ① 카페 봄날 → 小清新海景 cottage 風，招牌 감귤 라떼<br>
+            ② 더바당 → 오션테라스 Specialty espresso<br>
+            ③ 노을리 → 3層植物系大型咖啡廳，屋頂俯瞰大海
+          </div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 한림에서 15분（1132 해안도로）</span>
+            <span class="chip chip-cost">💰 約 ₩80,000–100,000（3店合計）</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">17:00</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">하귀~애월 해안도로 드라이브</div>
+          <div class="tl-name-zh">🌅 下貴～애월 海岸公路夕陽駕車</div>
+          <div class="tl-desc">濟州最美海岸公路之一，離機場僅10km！1132번 도로 沿海而行，西向行駛面對夕陽。播上喜歡的音樂，窗外就是最美的海岸線。</div>
+          <div class="tl-chips">
+            <span class="chip chip-star">⭐ 免費絕景</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">18:30</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">제주시 칠성로 + 중앙지하상가 쇼핑</div>
+          <div class="tl-name-zh">🛍️ 濟州市七星路 伴手禮大採購</div>
+          <div class="tl-desc">
+            採購清單：감귤 초콜릿 / 오메기떡（黑米麻糬，需冷藏）/ 흑돼지 소시지（真空包裝）/ 제주 한라봉 건과일 / 옹기 紀念品
+          </div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 하귀에서 20분</span>
+            <span class="chip chip-cost">💰 伴手禮預算建議 ₩100,000+</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">20:30</div>
+          <div class="tl-dot" style="background:#E74C3C;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">석별 만찬: 흑돼지 BBQ（연동 흑돼지 거리）</div>
+          <div class="tl-name-zh">🔥 告別晚餐：黑豬烤肉街</div>
+          <div class="tl-desc">연동（蓮洞）黑豬烤肉激戰區，品質穩定。삼겹살 + 목살 + 소주 + 맥주，完美收尾！</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 約 ₩100,000–130,000（含酒）</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ DAY 5 ═══════════ -->
+  <div class="day-block d5">
+    <div class="day-header">
+      <div class="day-num">5</div>
+      <div>
+        <div class="day-title">4/12 (日)｜出發日 — 10:40 CJU 起飛</div>
+        <div class="day-subtitle">早餐 → 東門最後採購 → 還車 → 機場</div>
+      </div>
+      <div class="day-badge">Zone：濟州市 → 機場</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">07:30</div>
+          <div class="tl-dot" style="background:#5DADE2;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">조식 + 짐 정리</div>
+          <div class="tl-name-zh">🥐 早餐 + 整理行李</div>
+          <div class="tl-desc">숙소 근처 Specialty 카페 或 GS25/CU 편의점 早餐體驗（韓式便利商店早餐文化）。</div>
+          <div class="tl-chips">
+            <span class="chip chip-cost">💰 約 ₩30,000–40,000</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">08:30</div>
+          <div class="tl-dot" style="background:#5DADE2;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">동문시장 마지막 쇼핑</div>
+          <div class="tl-name-zh">🏮 東門市場最後採購衝刺</div>
+          <div class="tl-desc">補買清單再確認！오메기떡（飛機攜帶OK但需密封）、신선 감귤（超重需寄送）。距機場僅 15 分鐘，時間充裕。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 숙소에서 5분</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">09:30</div>
+          <div class="tl-dot" style="background:#5DADE2;"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-kr">렌터카 반납 + 공항 체크인</div>
+          <div class="tl-name-zh">🛬 還車 + 辦理登機</div>
+          <div class="tl-desc">10:40 IT655 出發，09:30 前還車。CJU 機場安檢通常 15–20 분。出境前免稅區可購買最後紀念品。</div>
+          <div class="tl-chips">
+            <span class="chip chip-transport">🚗 동문시장에서 15분</span>
+            <span class="chip chip-warn">⚠️ 09:30 前完成還車</span>
+          </div>
+          <a href="https://www.airport.co.kr/jeju/" class="tl-link" target="_blank">🔗 濟州機場官網</a>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-time">10:40</div>
+          <div class="tl-dot" style="background:#1B4F72; width:14px; height:14px; margin-top:4px;"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-name-zh" style="font-size:1.1rem; color:#1B4F72;">✈ IT655 CJU → TPE 起飛！</div>
+          <div class="tl-desc">抵達桃園 T1 預計 11:45。濟州島，下次再見 🍊</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 預算彙總 ═══════════ -->
+  <div class="section-title">💰 4人預算估算表</div>
+  <div class="budget-grid">
+    <div class="budget-card"><div class="b-item">🛳️ 牛島渡輪（往返 × 4人）</div><div class="b-krw">₩ 42,000</div><div class="b-twd">≈ NT$ 1,008</div></div>
+    <div class="budget-card"><div class="b-item">🛵 牛島電動摩托車 × 4人</div><div class="b-krw">₩ 60,000</div><div class="b-twd">≈ NT$ 1,440</div></div>
+    <div class="budget-card"><div class="b-item">🌋 城山日出峰門票 × 4人</div><div class="b-krw">₩ 20,000</div><div class="b-twd">≈ NT$ 480</div></div>
+    <div class="budget-card"><div class="b-item">💦 天地淵 + 正房瀑布 × 4人</div><div class="b-krw">₩ 16,000</div><div class="b-twd">≈ NT$ 384</div></div>
+    <div class="budget-card"><div class="b-item">🏔️ 龍頭海岸 × 4人</div><div class="b-krw">₩ 8,000</div><div class="b-twd">≈ NT$ 192</div></div>
+    <div class="budget-card"><div class="b-item">🕳️ 翰林公園 × 4人</div><div class="b-krw">₩ 48,000</div><div class="b-twd">≈ NT$ 1,152</div></div>
+    <div class="budget-card"><div class="b-item">🍽️ 餐飲（5日合計）</div><div class="b-krw">₩ 700,000</div><div class="b-twd">≈ NT$ 16,800</div></div>
+    <div class="budget-card"><div class="b-item">☕ 咖啡廳（5日合計）</div><div class="b-krw">₩ 250,000</div><div class="b-twd">≈ NT$ 6,000</div></div>
+    <div class="budget-card"><div class="b-item">🎁 伴手禮購物</div><div class="b-krw">₩ 200,000</div><div class="b-twd">≈ NT$ 4,800</div></div>
+    <div class="budget-card"><div class="b-item">🚗 租車費（4日）</div><div class="b-krw">₩ 280,000</div><div class="b-twd">≈ NT$ 6,720</div></div>
+    <div class="budget-card"><div class="b-item">⛽ 油費 & 停車費（4日）</div><div class="b-krw">₩ 80,000</div><div class="b-twd">≈ NT$ 1,920</div></div>
+  </div>
+  <div class="budget-total">
+    <div>
+      <div class="label">🏷️ 合計（不含住宿 & 機票）</div>
+      <div style="font-size:.78rem;opacity:.7;margin-top:2px;">匯率參考：1 KRW ≈ 0.024 TWD（2026年4月）</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="amount">₩ 1,704,000</div>
+      <div style="font-size:.9rem;opacity:.85;">≈ NT$ 40,896（4人合計）</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ 注意事項 ═══════════ -->
+  <div class="section-title">📌 旅遊注意事項 & 必辦清單</div>
+
+  <ul class="checklist" style="margin-bottom:20px;">
+    <li>【出發前 ⚠️ 必辦】海女廚房（해녀의부엌）預約：<a href="https://en.haenyeokitchen.com/" target="_blank" style="color:#0E9183;">官網預約</a>，位置有限</li>
+    <li>【出發前】虎航網路報到（起飛前24小時開放），省去現場時間</li>
+    <li>【出發前】租車預訂（SK렌터카/KT렌터카），含全險，中型車以上</li>
+    <li>【4/8 去程】桃園機場 <strong>第一航廈（T1）D區</strong>，建議 <strong>04:00 前</strong>抵達</li>
+    <li>【牛島當日】외지 렌터카 禁止上島，停車於성산항停車場，島上租電動摩托車</li>
+    <li>【伴手禮】오메기떡 常溫保存期短，冷藏3–5天；真空包裝흑돼지 소시지 可帶上飛機</li>
+    <li>【天氣】4月濟州均溫 12–18°C，海邊風大，備薄外套</li>
+    <li>【導航】使用 <strong>Naver Map（네이버지도）</strong>，韓國境內比 Google Maps 精確</li>
+    <li>【4/12 回程】濟州機場 <strong>08:00 前</strong>抵達，09:30 前完成還車</li>
+  </ul>
+
+  <div class="section-title">📱 必備 App & 重要連結</div>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🗺️</div>
+      <div class="tip-text"><strong>Naver Map（네이버지도）</strong>：韓國境內最準確導航，支援中文輸入，強烈建議替代 Google Maps</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🛳️</div>
+      <div class="tip-text"><strong>牛島渡輪</strong>：<a href="http://udoship.com/" target="_blank" style="color:#0E9183;">udoship.com</a>，現場購票即可，07:30–18:30 每30分一班</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🍽️</div>
+      <div class="tip-text"><strong>海女廚房</strong>：<a href="https://en.haenyeokitchen.com/" target="_blank" style="color:#0E9183;">haenyeokitchen.com</a>，⚠️ 必須提前預約，別錯過！</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">📦</div>
+      <div class="tip-text"><strong>行李寄送</strong>：CJ대한통운 可在濟州機場辦理行李寄送回台，大件伴手禮的救星</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">💊</div>
+      <div class="tip-text"><strong>緊急就醫</strong>：제주 한라병원 064-740-5000，觀光客急診友善</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">☎️</div>
+      <div class="tip-text"><strong>觀光服務熱線</strong>：064-740-6000（可詢問中文服務），或韓國旅遊熱線 1330</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  🍊 濟州島 5天4夜深度自駕行程 | 2026.04.08–04.12 | 4位成人<br>
+  行程由 Travel Planner Pro 規劃生成 · 請以官方最新資訊為準
+</footer>
+
+</body>
+</html>
